@@ -1,10 +1,17 @@
 #addin "wk.StartProcess"
+#addin "wk.ProjectParser"
 
 using PS = StartProcess.Processor;
+using ProjectParser;
+
+var project = "src/Yaml2Json/Yaml2Json.fsproj";
+var info = Parser.Parse(project);
+var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+var currentDir = new System.IO.DirectoryInfo(".").FullName;
 
 Task("Pack").Does(() => {
     CleanDirectory("publish");
-    DotNetCorePack("src/Yaml2Json", new DotNetCorePackSettings {
+    DotNetCorePack(project, new DotNetCorePackSettings {
         OutputDirectory = "publish"
     });
 });
@@ -24,8 +31,9 @@ Task("Publish-Nuget")
 Task("Install")
     .IsDependentOn("Pack")
     .Does(() => {
-        PS.StartProcess("rm /Users/wk/.dotnet/tools/wk-y2j");
-        PS.StartProcess("dotnet install tool -g wk.Yaml2Json --source ./publish");
+        Information(info.Version);
+        PS.StartProcess($"dotnet tool uninstall -g wk.Yaml2Json");
+        PS.StartProcess($"dotnet tool install -g wk.Yaml2Json --source-feed {currentDir}/publish --version {info.Version}");
     });
 
 var target = Argument("target", "Pack");

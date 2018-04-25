@@ -2,10 +2,11 @@
 
 Conver `.yaml` to `.json`
 
-## Installation
+## Installation / Uninstallation
 
 ```bash
-dotnet install tool -g wk.Yaml2Json
+dotnet tool install -g wk.Yaml2Json
+dotnet tool uninstall -g wk.Yaml2Json
 ```
 
 ## Usage

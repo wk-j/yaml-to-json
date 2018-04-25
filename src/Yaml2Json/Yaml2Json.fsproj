@@ -1,12 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
+    <ToolCommandName>wk-y2j</ToolCommandName>
     <OutputType>Exe</OutputType>
+    <PackAsTool>true</PackAsTool>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <PackageId>wk.Yaml2Json</PackageId>
+    <Version>0.1.0</Version>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="Program.fs" />
   </ItemGroup>
-
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="YamlDotNet" Version="4.3.1" />
+  </ItemGroup>
 </Project>
